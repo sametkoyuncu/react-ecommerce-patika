@@ -1,4 +1,4 @@
-import React from 'react'
+import moment from 'moment'
 import CardMui from '@mui/material/Card'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
@@ -13,24 +13,24 @@ import Stack from '@mui/material/Stack'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 
-function Card() {
+function Card({ product }) {
   return (
     <CardMui>
       <CardMedia
         component="img"
         height="140"
-        image="https://vetrehberi.com/wp-content/uploads/2018/11/bukalemunlar-chamaeleonidae.jpg"
-        alt="green iguana"
+        image={product.photos[0]}
+        alt={product.title}
       />
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          9 Kasım 2021
+          {moment(product.createdAt).format('DD/MMM/YYYY')}
         </Typography>
         <Typography gutterBottom variant="h5" component="div">
-          Macbook Pro
+          {product.title}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          10000 TL
+          {product.price} ₺
         </Typography>
       </CardContent>
       <CardActions>

@@ -4,10 +4,24 @@ import './index.css'
 import './reset.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { ReactQueryDevtools } from 'react-query/devtools'
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnMount: false, // başka linle gidip, tekrar aynı yere geri geldiğinde refresh etmesin
+      refetchOnWindowFocus: false, //sekme değişince yeniden veri çekmesin
+    },
+  },
+})
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <QueryClientProvider client={queryClient}>
+      <App />
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   </React.StrictMode>,
   document.getElementById('root')
 )
