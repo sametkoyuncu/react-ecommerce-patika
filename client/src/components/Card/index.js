@@ -1,4 +1,5 @@
 import moment from 'moment'
+import { Link } from 'react-router-dom'
 import CardMui from '@mui/material/Card'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
@@ -16,23 +17,25 @@ import FavoriteIcon from '@mui/icons-material/Favorite'
 function Card({ product }) {
   return (
     <CardMui>
-      <CardMedia
-        component="img"
-        height="140"
-        image={product.photos[0]}
-        alt={product.title}
-      />
-      <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          {moment(product.createdAt).format('DD/MMM/YYYY')}
-        </Typography>
-        <Typography gutterBottom variant="h5" component="div">
-          {product.title}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {product.price} ₺
-        </Typography>
-      </CardContent>
+      <Link to={`/product/${product._id}`}>
+        <CardMedia
+          component="img"
+          height="140"
+          image={product.photos[0]}
+          alt={product.title}
+        />
+        <CardContent>
+          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+            {moment(product.createdAt).format('DD/MMM/YYYY')}
+          </Typography>
+          <Typography gutterBottom variant="h5" color="black" component="div">
+            {product.title}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {product.price} ₺
+          </Typography>
+        </CardContent>
+      </Link>
       <CardActions>
         <Stack direction="row" spacing={22}>
           <IconButton color="secondary" aria-label="add to shopping cart">

@@ -1,4 +1,3 @@
-import React from 'react'
 import Card from '../../components/Card'
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
@@ -11,8 +10,7 @@ function Products() {
   if (isLoading) return 'Loading...'
 
   if (error) return 'An error has occurred: ' + error.message
-  console.log('data', data)
-  const _arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
   return (
     <div>
       <Container>
