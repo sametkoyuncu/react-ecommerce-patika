@@ -17,23 +17,26 @@ import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 
 import SaveIcon from '@mui/icons-material/Save'
+import validationSchema from './validations.js'
 
+import { useFormik } from 'formik'
 function Signup() {
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+      passwordConfirm: '',
+    },
+    validationSchema,
+    onSubmit: async (values, bag) => {
+      console.log(values)
+    },
+  })
+
   const [values, setValues] = useState({
-    email: '',
-    password: '',
-    passwordConfirm: '',
     showPassword: false,
     showPasswordConfirm: false,
   })
-
-  const handleSubmit = () => {
-    setValues({ ...values })
-  }
-
-  const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value })
-  }
 
   const handleClickShowPassword = () => {
     setValues({
@@ -67,6 +70,7 @@ function Signup() {
       >
         <Box
           component="form"
+          onSubmit={formik.handleSubmit}
           sx={{
             '& > :not(style)': { m: 1, width: '25ch' },
           }}
@@ -86,8 +90,10 @@ function Signup() {
           <br />
           <TextField
             id="email"
-            value={values.email}
-            onChange={handleChange('email')}
+            name="email"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.email}
             label="E-Mail"
             variant="outlined"
             color="secondary"
@@ -105,8 +111,10 @@ function Signup() {
             <OutlinedInput
               id="outlined-adornment-password"
               type={values.showPassword ? 'text' : 'password'}
-              value={values.password}
-              onChange={handleChange('password')}
+              name="password"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.password}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -134,8 +142,10 @@ function Signup() {
             <OutlinedInput
               id="outlined-adornment-passwordConfirm"
               type={values.showPasswordConfirm ? 'text' : 'password'}
-              value={values.passwordConfirm}
-              onChange={handleChange('passwordConfirm')}
+              name="passwordConfirm"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.passwordConfirm}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -157,16 +167,12 @@ function Signup() {
           </FormControl>
           <br />
           <Button
-            onClick={handleSubmit}
+            type="submit"
             variant="outlined"
             color="secondary"
             size="large"
             startIcon={<SaveIcon />}
-            disabled={
-              values.email === '' ||
-              values.password === '' ||
-              values.passwordConfirm === ''
-            }
+            disabled={!formik.isValid}
           >
             Sign Up
           </Button>
@@ -177,3 +183,8 @@ function Signup() {
 }
 
 export default Signup
+// disabled={
+//               formik.values.email === '' ||
+//               formik.values.password === '' ||
+//               formik.values.passwordConfirm === ''
+//             }
