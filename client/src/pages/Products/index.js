@@ -15,7 +15,7 @@ function Products() {
     status,
   } = useInfiniteQuery('products', fetchProductList, {
     getNextPageParam: (lastGroup, allGroups) => {
-      const morePageExist = lastGroup?.length == 12 //backend'ten 12 adet geliyor
+      const morePageExist = lastGroup?.length === 12 //backend'ten 12 adet geliyor
 
       if (!morePageExist) {
         return

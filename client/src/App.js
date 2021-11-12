@@ -15,8 +15,8 @@ function App() {
           <Routes>
             <Route path="/" exact element={<Products />} />
             <Route path="/product/:product_id" element={<ProductDetail />} />
-            <Route path="/about" component={Signin} />
-            <Route path="/about" component={Signup} />
+            <Route path="/signin" element={<Signin />} />
+            <Route path="/signup" element={<Signup />} />
           </Routes>
         </div>
       </div>
