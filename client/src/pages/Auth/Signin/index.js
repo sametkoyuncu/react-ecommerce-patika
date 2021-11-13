@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import {
   Container,
   Grid,
@@ -24,7 +26,8 @@ import { useFormik } from 'formik'
 import { fetchLogin } from '../../../api.js'
 import { useAuth } from '../../../contexts/AuthContext'
 
-function Signin({ history }) {
+function Signin() {
+  const navigate = useNavigate()
   //auth context
   const { login } = useAuth()
   // formik events
@@ -41,7 +44,7 @@ function Signin({ history }) {
           password: values.password,
         })
         login(loginResponse)
-        history.push('/')
+        navigate('/profile')
       } catch (e) {
         bag.setErrors({ general: e.response.data.message })
       }

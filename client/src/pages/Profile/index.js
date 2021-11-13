@@ -1,12 +1,15 @@
 import { useAuth } from '../../contexts/AuthContext'
 import Button from '@mui/material/Button'
+import { useNavigate } from 'react-router-dom'
 
-function Profile({ history }) {
+function Profile() {
   const { user, logout } = useAuth()
+
+  const navigate = useNavigate()
 
   const handleLogout = async () => {
     logout(() => {
-      history.push('/')
+      navigate('/')
     })
   }
   return (
