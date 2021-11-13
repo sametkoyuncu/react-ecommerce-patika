@@ -140,7 +140,7 @@ function Signup() {
             variant="outlined"
             color="secondary"
             style={{ minWidth: 300 }}
-            error={formik.touched.email && formik.errors.email}
+            error={formik.errors.email}
             helperText={formik.errors.email}
           />
           <br />
