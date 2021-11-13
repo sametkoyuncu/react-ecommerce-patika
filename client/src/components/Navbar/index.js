@@ -42,7 +42,7 @@ function Navbar() {
                 <FavoriteIcon />
               </Badge>
             </IconButton>
-            <Link to="/signin" style={{ marginRight: 10 }}>
+            <Link to="/profile" style={{ marginRight: 10 }}>
               <Button variant="outlined" color="secondary" disableElevation>
                 Profile
               </Button>
