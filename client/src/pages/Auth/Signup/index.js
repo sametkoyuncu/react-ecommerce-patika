@@ -24,7 +24,7 @@ import { useFormik } from 'formik'
 import { fetchRegister } from '../../../api.js'
 import { useAuth } from '../../../contexts/AuthContext'
 
-function Signup() {
+function Signup({ history }) {
   //auth context
   const { login } = useAuth()
   // formik events
@@ -42,6 +42,7 @@ function Signup() {
           password: values.password,
         })
         login(registerResponse)
+        history.push('/')
       } catch (e) {
         bag.setErrors({ general: e.response.data.message })
       }
