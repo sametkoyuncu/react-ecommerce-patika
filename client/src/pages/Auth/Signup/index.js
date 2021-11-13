@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   Container,
   Grid,
@@ -11,6 +11,8 @@ import {
   OutlinedInput,
   InputAdornment,
   IconButton,
+  Snackbar,
+  Alert,
 } from '@mui/material'
 
 import Visibility from '@mui/icons-material/Visibility'
@@ -20,7 +22,11 @@ import SaveIcon from '@mui/icons-material/Save'
 import validationSchema from './validations.js'
 
 import { useFormik } from 'formik'
+
+import { fetchRegister } from '../../../api.js'
+
 function Signup() {
+  // formik events
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -29,10 +35,24 @@ function Signup() {
     },
     validationSchema,
     onSubmit: async (values, bag) => {
-      console.log(values)
+      try {
+        const registerResponse = await fetchRegister({
+          email: values.email,
+          password: values.password,
+        })
+        console.log(registerResponse)
+      } catch (e) {
+        bag.setErrors({ general: e.response.data.message })
+      }
     },
   })
 
+  // alert message
+  useEffect(() => {
+    if (formik.errors.general) setOpen(true)
+  }, [formik.errors.general])
+
+  // show password events
   const [values, setValues] = useState({
     showPassword: false,
     showPasswordConfirm: false,
@@ -60,8 +80,29 @@ function Signup() {
     event.preventDefault()
   }
 
+  // snackbar events
+  const [open, setOpen] = useState(false)
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setOpen(false)
+  }
+
   return (
     <Container>
+      <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          {formik.errors.general}
+        </Alert>
+      </Snackbar>
       <Grid
         container
         direction="row"
@@ -98,12 +139,15 @@ function Signup() {
             variant="outlined"
             color="secondary"
             style={{ minWidth: 300 }}
+            error={formik.touched.email && formik.errors.email}
+            helperText={formik.errors.email}
           />
           <br />
           <FormControl
             variant="outlined"
             color="secondary"
             style={{ minWidth: 300 }}
+            error={formik.touched.password && formik.errors.password}
           >
             <InputLabel htmlFor="outlined-adornment-password">
               Password
@@ -135,6 +179,9 @@ function Signup() {
             variant="outlined"
             color="secondary"
             style={{ minWidth: 300 }}
+            error={
+              formik.touched.passwordConfirm && formik.errors.passwordConfirm
+            }
           >
             <InputLabel htmlFor="outlined-adornment-passwordConfirm">
               Password Confirm
@@ -183,8 +230,3 @@ function Signup() {
 }
 
 export default Signup
-// disabled={
-//               formik.values.email === '' ||
-//               formik.values.password === '' ||
-//               formik.values.passwordConfirm === ''
-//             }
