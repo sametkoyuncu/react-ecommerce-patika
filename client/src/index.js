@@ -6,6 +6,8 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
+//contexts
+import { AuthProvider } from './contexts/AuthContext'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,7 +21,9 @@ const queryClient = new QueryClient({
 ReactDOM.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <App />
+      <AuthProvider>
+        <App />
+      </AuthProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   </React.StrictMode>,

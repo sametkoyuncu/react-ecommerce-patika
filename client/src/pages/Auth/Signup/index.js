@@ -14,18 +14,19 @@ import {
   Snackbar,
   Alert,
 } from '@mui/material'
-
+//icons
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
-
 import SaveIcon from '@mui/icons-material/Save'
+// others
 import validationSchema from './validations.js'
-
 import { useFormik } from 'formik'
-
 import { fetchRegister } from '../../../api.js'
+import { useAuth } from '../../../contexts/AuthContext'
 
 function Signup() {
+  //auth context
+  const { login } = useAuth()
   // formik events
   const formik = useFormik({
     initialValues: {
@@ -40,7 +41,7 @@ function Signup() {
           email: values.email,
           password: values.password,
         })
-        console.log(registerResponse)
+        login(registerResponse)
       } catch (e) {
         bag.setErrors({ general: e.response.data.message })
       }

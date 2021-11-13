@@ -8,7 +8,11 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import IconButton from '@mui/material/IconButton'
 
+import { useAuth } from '../../contexts/AuthContext'
+
 function Navbar() {
+  const { loggedIn } = useAuth()
+  console.log(loggedIn)
   return (
     <nav className={styles.nav}>
       <div className={styles.left}>
@@ -26,26 +30,40 @@ function Navbar() {
         </ul>
       </div>
       <div className={styles.right}>
-        <IconButton>
-          <Badge badgeContent={4} color="secondary">
-            <ShoppingCartIcon />
-          </Badge>
-        </IconButton>
-        <IconButton style={{ marginRight: 20 }}>
-          <Badge badgeContent={2} color="error">
-            <FavoriteIcon />
-          </Badge>
-        </IconButton>
-        <Link to="/signin" style={{ marginRight: 10 }}>
-          <Button variant="contained" color="secondary" disableElevation>
-            Login
-          </Button>
-        </Link>
-        <Link to="/signup">
-          <Button variant="outlined" color="secondary">
-            Register
-          </Button>
-        </Link>
+        {loggedIn && (
+          <>
+            <IconButton>
+              <Badge badgeContent={4} color="secondary">
+                <ShoppingCartIcon />
+              </Badge>
+            </IconButton>
+            <IconButton style={{ marginRight: 20 }}>
+              <Badge badgeContent={2} color="error">
+                <FavoriteIcon />
+              </Badge>
+            </IconButton>
+            <Link to="/signin" style={{ marginRight: 10 }}>
+              <Button variant="outlined" color="secondary" disableElevation>
+                Profile
+              </Button>
+            </Link>
+          </>
+        )}
+
+        {!loggedIn && (
+          <>
+            <Link to="/signin" style={{ marginRight: 10 }}>
+              <Button variant="contained" color="secondary" disableElevation>
+                Login
+              </Button>
+            </Link>
+            <Link to="/signup">
+              <Button variant="outlined" color="secondary">
+                Register
+              </Button>
+            </Link>
+          </>
+        )}
       </div>
     </nav>
   )
