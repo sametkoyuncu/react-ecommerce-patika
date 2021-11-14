@@ -13,8 +13,20 @@ import Stack from '@mui/material/Stack'
 //selected icons
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import FavoriteIcon from '@mui/icons-material/Favorite'
+//contexts
+import { useCart } from '../../contexts/CartContext'
 
 function Card({ product }) {
+  const { addToCart, items } = useCart()
+  const findCartItem = items.find((item) => item._id === product._id)
+  let icon
+
+  if (findCartItem) {
+    icon = <ShoppingCartIcon />
+  } else {
+    icon = <AddShoppingCartOutlinedIcon />
+  }
+
   return (
     <CardMui>
       <Link to={`/product/${product._id}`}>
@@ -38,8 +50,12 @@ function Card({ product }) {
       </Link>
       <CardActions>
         <Stack direction="row" spacing={22}>
-          <IconButton color="secondary" aria-label="add to shopping cart">
-            <AddShoppingCartOutlinedIcon />
+          <IconButton
+            onClick={() => addToCart(product, findCartItem)}
+            color={findCartItem ? 'error' : 'secondary'}
+            aria-label="add to shopping cart"
+          >
+            {icon}
           </IconButton>
           <IconButton color="error" aria-label="add to shopping cart">
             <FavoriteBorderIcon />

@@ -9,10 +9,12 @@ import FavoriteIcon from '@mui/icons-material/Favorite'
 import IconButton from '@mui/material/IconButton'
 
 import { useAuth } from '../../contexts/AuthContext'
+import { useCart } from '../../contexts/CartContext'
 
 function Navbar() {
   const { loggedIn } = useAuth()
-  console.log(loggedIn)
+  const { items } = useCart()
+
   return (
     <nav className={styles.nav}>
       <div className={styles.left}>
@@ -32,11 +34,13 @@ function Navbar() {
       <div className={styles.right}>
         {loggedIn && (
           <>
-            <IconButton>
-              <Badge badgeContent={4} color="secondary">
-                <ShoppingCartIcon />
-              </Badge>
-            </IconButton>
+            <Link to="/cart" style={{ marginRight: 10 }}>
+              <IconButton>
+                <Badge badgeContent={items.length} color="secondary">
+                  <ShoppingCartIcon />
+                </Badge>
+              </IconButton>
+            </Link>
             <IconButton style={{ marginRight: 20 }}>
               <Badge badgeContent={2} color="error">
                 <FavoriteIcon />

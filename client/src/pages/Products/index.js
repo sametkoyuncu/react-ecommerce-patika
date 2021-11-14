@@ -1,8 +1,8 @@
+import React from 'react'
 import Card from '../../components/Card'
 import { Container, Grid, Button } from '@mui/material'
 import { useInfiniteQuery } from 'react-query'
 import { fetchProductList } from '../../api.js'
-import React from 'react'
 
 function Products() {
   const {

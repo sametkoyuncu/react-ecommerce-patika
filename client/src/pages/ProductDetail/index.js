@@ -7,17 +7,33 @@ import { fetchProductById } from '../../api.js'
 import { Container, Grid, Typography, Button, IconButton } from '@mui/material'
 // icons
 import AddShoppingCartOutlinedIcon from '@mui/icons-material/AddShoppingCartOutlined'
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
+//contexts
+import { useCart } from '../../contexts/CartContext'
 
 function ProductDetail() {
   const { product_id } = useParams()
-
+  const { addToCart, items } = useCart()
   const { isLoading, error, data } = useQuery(['product', product_id], () =>
     fetchProductById(product_id)
   )
-  if (isLoading) return 'Loading...'
+  if (isLoading) {
+    return 'Loading...'
+  }
 
-  if (error) return 'An error has occurred: ' + error.message
+  if (error) {
+    return 'An error has occurred: ' + error.message
+  }
+
+  const findCartItem = items.find((item) => item._id === data._id)
+  let icon
+
+  if (findCartItem) {
+    icon = <ShoppingCartIcon />
+  } else {
+    icon = <AddShoppingCartOutlinedIcon />
+  }
 
   const images = data.photos.map((url) => ({ original: url, thumbnail: url }))
 
@@ -51,13 +67,14 @@ function ProductDetail() {
           </Typography>
           <br />
           <Button
-            variant="outlined"
+            onClick={() => addToCart(data, findCartItem)}
+            variant={findCartItem ? 'contained' : 'outlined'}
             color="warning"
-            startIcon={<AddShoppingCartOutlinedIcon />}
+            startIcon={icon}
             style={{ marginRight: 5 }}
             disableElevation
           >
-            Add to Cart
+            {findCartItem ? 'Remove from Cart' : 'Add to Cart'}
           </Button>
           <IconButton color="error" aria-label="add to favorites list">
             <FavoriteBorderIcon />
