@@ -15,7 +15,6 @@ const AuthProvider = ({ children }) => {
     ;(async () => {
       try {
         const me = await fetchMe()
-        console.log('me', me)
 
         setLoggedIn(true)
         setUser(me)
