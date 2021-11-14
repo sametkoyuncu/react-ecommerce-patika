@@ -1,14 +1,57 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 //contexts
 import { useCart } from '../../contexts/CartContext'
+//api
+import { postOrder } from '../../api.js'
 //mui
-import { Alert, Container, Avatar, Button, Box } from '@mui/material'
+import {
+  Alert,
+  Container,
+  Avatar,
+  Button,
+  Box,
+  Modal,
+  TextField,
+  Grid,
+} from '@mui/material'
 //icons
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
+import PaymentIcon from '@mui/icons-material/Payment'
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+}
 
 function Cart() {
-  const { items, removeFromCart } = useCart()
+  const { items, removeFromCart, emptyCart } = useCart()
   const total = items.reduce((acc, item) => (acc += item.price), 0)
+
+  //modal things
+  const [open, setOpen] = useState(false)
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
+  const [address, setAddress] = useState()
+  const handleSubmitForm = async () => {
+    const itemIds = items.map((item) => item._id)
+
+    const input = {
+      address,
+      items: JSON.stringify(itemIds),
+    }
+    await postOrder(input)
+    setOpen(false)
+    setAddress('')
+    emptyCart()
+  }
   return (
     <div>
       {items.length < 1 && (
@@ -43,11 +86,60 @@ function Cart() {
               </li>
             ))}
           </ul>
-          <Box ml={3} mt={10}>
-            Total:{total} TL
+          <Box mt={5}>
+            <span style={{ marginRight: 10 }}>Total:{total} TL</span>
+            <Button
+              onClick={handleOpen}
+              variant="contained"
+              color="secondary"
+              startIcon={<PaymentIcon />}
+              style={{ marginRight: 5 }}
+              disableElevation
+            >
+              Order
+            </Button>
           </Box>
         </Box>
       )}
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <TextField
+            id="address"
+            name="address"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            label="Address"
+            variant="outlined"
+            color="secondary"
+            multiline
+            rows={4}
+            style={{ minWidth: 400 }}
+          />
+          <Grid
+            container
+            direction="row"
+            justifyContent="flex-end"
+            style={{ marginTop: 10 }}
+          >
+            <Button
+              onClick={handleSubmitForm}
+              variant="contained"
+              color="secondary"
+              style={{ marginRight: 5 }}
+            >
+              Okay
+            </Button>
+            <Button onClick={handleClose} variant="outlined" color="secondary">
+              Cancel
+            </Button>
+          </Grid>
+        </Box>
+      </Modal>
     </div>
   )
 }
