@@ -1,9 +1,13 @@
 import { useState, createContext, useEffect, useContext } from 'react'
 
 const CartContext = createContext()
-
+const defaultCart = JSON.parse(localStorage.getItem('cart')) || []
 const CartProvider = ({ children }) => {
-  const [items, setItems] = useState([])
+  const [items, setItems] = useState(defaultCart)
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(items))
+  }, [items])
 
   const addToCart = (data, findCartItem) => {
     if (!findCartItem) {
@@ -13,10 +17,16 @@ const CartProvider = ({ children }) => {
     setItems(filtered)
   }
 
+  const removeFromCart = (data) => {
+    const filtered = items.filter((item) => item._id !== data._id)
+    setItems(filtered)
+  }
+
   const values = {
     items,
     setItems,
     addToCart,
+    removeFromCart,
   }
 
   return <CartContext.Provider value={values}>{children}</CartContext.Provider>
