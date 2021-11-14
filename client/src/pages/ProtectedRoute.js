@@ -1,17 +1,9 @@
-import { Route, Navigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 
-function ProtectedRoute({ component: Component, ...rest }) {
+function ProtectedRoute({ children }) {
   const { loggedIn } = useAuth()
-  return (
-    <Route
-      {...rest}
-      render={(props) => {
-        if (loggedIn) return <Component {...props} />
-        return <Navigate to={{ pathName: '/' }} />
-      }}
-    />
-  )
+  return loggedIn ? children : <Navigate to="/signin" />
 }
 
 export default ProtectedRoute

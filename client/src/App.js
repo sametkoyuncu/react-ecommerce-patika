@@ -21,10 +21,22 @@ function App() {
             <Route path="/product/:product_id" element={<ProductDetail />} />
             <Route path="/signin" element={<Signin />} />
             <Route path="/signup" element={<Signup />} />
-            {/* need protected routes, actually cart dont need it! */}
-            {/* <ProtectedRoute path="/profile" component={Profile} /> */}
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/cart" element={<Cart />} />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/cart"
+              element={
+                <ProtectedRoute>
+                  <Cart />
+                </ProtectedRoute>
+              }
+            />
             {/* error 404 */}
             <Route path="*" element={<Error404 />} />
           </Routes>
