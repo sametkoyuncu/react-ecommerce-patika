@@ -178,6 +178,34 @@ function Signin() {
             Sign In
           </Button>
         </Box>
+        <Grid
+          container
+          direction="column"
+          alignItems="center"
+          style={{ margin: 10 }}
+        >
+          <Typography
+            variant="h5"
+            color="secondary"
+            style={{ display: 'inline', marginBottom: 20 }}
+          >
+            User Email: user@mail.com
+          </Typography>
+          <Typography
+            variant="h5"
+            color="secondary"
+            style={{ display: 'inline', marginBottom: 20 }}
+          >
+            Admin Email: admin@mail.com
+          </Typography>
+          <Typography
+            variant="h5"
+            color="secondary"
+            style={{ display: 'inline', marginBottom: 20 }}
+          >
+            Password: 1232
+          </Typography>
+        </Grid>
       </Grid>
     </Container>
   )
