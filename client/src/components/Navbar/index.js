@@ -12,7 +12,7 @@ import { useAuth } from '../../contexts/AuthContext'
 import { useCart } from '../../contexts/CartContext'
 
 function Navbar() {
-  const { loggedIn } = useAuth()
+  const { loggedIn, user } = useAuth()
   const { items } = useCart()
 
   return (
@@ -51,6 +51,13 @@ function Navbar() {
                 Profile
               </Button>
             </Link>
+            {user?.role === 'admin' && (
+              <Link to="/admin" style={{ marginRight: 10 }}>
+                <Button variant="outlined" color="warning" disableElevation>
+                  Admin
+                </Button>
+              </Link>
+            )}
           </>
         )}
 

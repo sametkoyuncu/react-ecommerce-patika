@@ -6,6 +6,7 @@ import ProductDetail from './pages/ProductDetail'
 import Signin from './pages/Auth/Signin'
 import Signup from './pages/Auth/Signup'
 import Profile from './pages/Profile'
+import Admin from './pages/Admin'
 import ProtectedRoute from './pages/ProtectedRoute'
 import Cart from './pages/Cart'
 import Error404 from './pages/Error404'
@@ -34,6 +35,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Cart />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/*"
+              element={
+                <ProtectedRoute admin={true}>
+                  <Admin />
                 </ProtectedRoute>
               }
             />
