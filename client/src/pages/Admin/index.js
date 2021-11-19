@@ -5,6 +5,7 @@ import { Link, Route, Routes } from 'react-router-dom'
 //components
 import Home from './Home'
 import Products from './Products'
+import NewProduct from './Products/new'
 import ProductDetail from './ProductDetail'
 import Orders from './Orders'
 import Users from './Users'
@@ -42,6 +43,7 @@ function Admin() {
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route exact path="/products" element={<Products />} />
+          <Route exact path="/products/new" element={<NewProduct />} />
           <Route path="/products/:product_id" element={<ProductDetail />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="users" element={<Users />} />

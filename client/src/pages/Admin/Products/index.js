@@ -3,8 +3,8 @@ import { useQuery, useMutation, useQueryClient } from 'react-query'
 import moment from 'moment'
 import { fetchProductList, deleteProduct } from '../../../api'
 import { Table, Popconfirm } from 'antd'
-import Typography from '@mui/material/Typography'
 import { Link } from 'react-router-dom'
+import { Button, Grid, Typography } from '@mui/material'
 
 function Products() {
   const queryClient = useQueryClient()
@@ -70,9 +70,26 @@ function Products() {
 
   return (
     <div>
-      <Typography variant="h4" gutterBottom component="div">
-        Products
-      </Typography>
+      <Grid
+        container
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <Typography variant="h4" gutterBottom component="div">
+          Products
+        </Typography>
+        <Link to="/admin/products/new">
+          <Button
+            variant="outlined"
+            color="success"
+            sx={{ mb: 1 }}
+            disableElevation
+          >
+            New Product
+          </Button>
+        </Link>
+      </Grid>
       <Table dataSource={data} columns={columns} rowKey="_id" />;
     </div>
   )
