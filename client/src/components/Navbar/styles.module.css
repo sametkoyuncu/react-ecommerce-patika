@@ -26,6 +26,7 @@
 .nav .left .menu {
     display: flex;
     margin-left: 40px;
+    margin-top: 10px;
 }
 
 .nav .left .menu li {
